@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import proyectoContext from "../../context/proyectos/proyectoContext";
+import { AGREGAR_PROYECTO } from "../../types";
 
 const NuevoProyecto = () => {
   const [proyecto, setProyecto] = useState({
@@ -10,7 +11,13 @@ const NuevoProyecto = () => {
 
   const proyectosContext = useContext(proyectoContext);
 
-  const { formulario, mostrarFormulario } = proyectosContext;
+  const {
+    formulario,
+    mostrarFormulario,
+    errorformulario,
+    agregarProyecto,
+    mostrarError,
+  } = proyectosContext;
 
   const onChangeProyecto = (e) => {
     setProyecto({ ...proyecto, [e.target.name]: e.target.value });
@@ -18,7 +25,17 @@ const NuevoProyecto = () => {
 
   const onSubmitProyecto = (e) => {
     e.preventDefault();
+
+    if (nombre === "") {
+      mostrarError();
+      return;
+    }
+
+    agregarProyecto(proyecto);
+
+    setProyecto({ nombre: "" });
   };
+
   return (
     <>
       <button
@@ -39,10 +56,14 @@ const NuevoProyecto = () => {
             value={nombre}
           />
           <input
+            type="submit"
             className="btn btn-primario btn-block"
-            defaultValue="Agregar Proyecto"
+            value="Agregar Proyecto"
           />
         </form>
+      ) : null}
+      {errorformulario ? (
+        <p className="mensaje error">EL nombre del proyecto es obligatorio</p>
       ) : null}
     </>
   );
