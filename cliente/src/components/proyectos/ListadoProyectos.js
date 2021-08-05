@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import Proyecto from "./Proyecto";
 import proyectoContext from "../../context/proyectos/proyectoContext";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const ListadoProyectos = () => {
   const contextoProyectos = useContext(proyectoContext);
@@ -8,6 +9,7 @@ const ListadoProyectos = () => {
 
   useEffect(() => {
     obtenerProyectos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!proyectos || proyectos.length === 0)
@@ -15,9 +17,13 @@ const ListadoProyectos = () => {
 
   return (
     <ul className="listado-proyectos">
-      {proyectos.map((proyecto, i) => (
-        <Proyecto key={i} proyecto={proyecto} />
-      ))}
+      <TransitionGroup>
+        {proyectos.map((proyecto, i) => (
+          <CSSTransition key={i} timeout={200} classNames="proyecto">
+            <Proyecto proyecto={proyecto} />
+          </CSSTransition>
+        ))}
+      </TransitionGroup>
     </ul>
   );
 };

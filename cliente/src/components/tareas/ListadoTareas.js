@@ -1,16 +1,14 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Tarea from "./Tarea";
 import proyectoContext from "../../context/proyectos/proyectoContext";
+import TareaContext from "../../context/tareas/tareaContext";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const ListadoTareas = () => {
   const proyectosContext = useContext(proyectoContext);
+  const tareasContext = useContext(TareaContext);
   const { proyecto, eliminarProyecto } = proyectosContext;
-  const tareasProyecto = [
-    { nombre: "Elegir Plataforma", estado: true },
-    { nombre: "Elegir Hosting", estado: false },
-    { nombre: "Elegir Colores", estado: false },
-    { nombre: "Elegir Pasarela de pago", estado: true },
-  ];
+  const { tareasproyecto } = tareasContext;
 
   if (!proyecto) {
     return <h2>Selecciona un Proyecto</h2>;
@@ -20,12 +18,18 @@ const ListadoTareas = () => {
     <>
       {proyecto ? <h2>Proyecto: {proyecto[0].nombre}</h2> : null}
       <ul className="listado-tareas">
-        {tareasProyecto.length === 0 ? (
+        {tareasproyecto.length === 0 ? (
           <li className="listado-tareas">
             <p>No hay tareas</p>
           </li>
         ) : (
-          tareasProyecto.map((tarea, i) => <Tarea key={i} tarea={tarea} />)
+          <TransitionGroup>
+            {tareasproyecto.map((tarea, i) => (
+              <CSSTransition key={i} timeout={200} classNames="tarea">
+                <Tarea tarea={tarea} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
         )}
       </ul>
       <button

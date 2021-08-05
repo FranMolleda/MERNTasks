@@ -3,7 +3,6 @@ import Barra from "../layout/Barra";
 import Sidebar from "../layout/SideBar";
 import FormTarea from "../tareas/FormTarea";
 import ListadoTareas from "../tareas/ListadoTareas";
-import proyectoContext from "../../context/proyectos/proyectoContext";
 
 const Proyectos = () => {
   return (

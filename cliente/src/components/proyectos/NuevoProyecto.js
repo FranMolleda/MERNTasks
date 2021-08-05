@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import proyectoContext from "../../context/proyectos/proyectoContext";
-import { AGREGAR_PROYECTO } from "../../types";
 
 const NuevoProyecto = () => {
   const [proyecto, setProyecto] = useState({
